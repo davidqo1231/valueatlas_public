@@ -1,0 +1,488 @@
+[
+  {
+    "code": "AGO",
+    "name": "Angola",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "ARG",
+    "name": "Argentina",
+    "is_country": 1,
+    "continent": "South America"
+  },
+  {
+    "code": "AUS",
+    "name": "Australia",
+    "is_country": 1,
+    "continent": "Oceania"
+  },
+  {
+    "code": "AUT",
+    "name": "Austria",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "BGD",
+    "name": "Bangladesh",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "BLR",
+    "name": "Belarus",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "BEL",
+    "name": "Belgium",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "BRA",
+    "name": "Brazil",
+    "is_country": 1,
+    "continent": "South America"
+  },
+  {
+    "code": "BRN",
+    "name": "Brunei Darussalam",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "BGR",
+    "name": "Bulgaria",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "KHM",
+    "name": "Cambodia",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "CMR",
+    "name": "Cameroon",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "CAN",
+    "name": "Canada",
+    "is_country": 1,
+    "continent": "North America"
+  },
+  {
+    "code": "CHL",
+    "name": "Chile",
+    "is_country": 1,
+    "continent": "South America"
+  },
+  {
+    "code": "CHN",
+    "name": "China (People’s Republic of)",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "TWN",
+    "name": "Chinese Taipei",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "COL",
+    "name": "Colombia",
+    "is_country": 1,
+    "continent": "South America"
+  },
+  {
+    "code": "CRI",
+    "name": "Costa Rica",
+    "is_country": 1,
+    "continent": "North America"
+  },
+  {
+    "code": "HRV",
+    "name": "Croatia",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "CYP",
+    "name": "Cyprus",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "CZE",
+    "name": "Czechia",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "CIV",
+    "name": "Côte d’Ivoire",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "COD",
+    "name": "Democratic Republic of the Congo",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "DNK",
+    "name": "Denmark",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "EGY",
+    "name": "Egypt",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "EST",
+    "name": "Estonia",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "FIN",
+    "name": "Finland",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "FRA",
+    "name": "France",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "DEU",
+    "name": "Germany",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "GRC",
+    "name": "Greece",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "HKG",
+    "name": "Hong Kong (China)",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "HUN",
+    "name": "Hungary",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "ISL",
+    "name": "Iceland",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "IND",
+    "name": "India",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "IDN",
+    "name": "Indonesia",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "IRL",
+    "name": "Ireland",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "ISR",
+    "name": "Israel",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "ITA",
+    "name": "Italy",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "JPN",
+    "name": "Japan",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "JOR",
+    "name": "Jordan",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "KAZ",
+    "name": "Kazakhstan",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "KOR",
+    "name": "Korea",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "LAO",
+    "name": "Lao People’s Democratic Republic",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "LVA",
+    "name": "Latvia",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "LTU",
+    "name": "Lithuania",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "LUX",
+    "name": "Luxembourg",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "MYS",
+    "name": "Malaysia",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "MLT",
+    "name": "Malta",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "MEX",
+    "name": "Mexico",
+    "is_country": 1,
+    "continent": "North America"
+  },
+  {
+    "code": "MAR",
+    "name": "Morocco",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "MMR",
+    "name": "Myanmar",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "NLD",
+    "name": "Netherlands",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "NZL",
+    "name": "New Zealand",
+    "is_country": 1,
+    "continent": "Oceania"
+  },
+  {
+    "code": "NGA",
+    "name": "Nigeria",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "NOR",
+    "name": "Norway",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "PAK",
+    "name": "Pakistan",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "PER",
+    "name": "Peru",
+    "is_country": 1,
+    "continent": "South America"
+  },
+  {
+    "code": "PHL",
+    "name": "Philippines",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "POL",
+    "name": "Poland",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "PRT",
+    "name": "Portugal",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "WXD",
+    "name": "Rest of the world",
+    "is_country": 1,
+    "continent": "Aggregate"
+  },
+  {
+    "code": "ROU",
+    "name": "Romania",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "RUS",
+    "name": "Russia",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "STP",
+    "name": "Sao Tome and Principe",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "SAU",
+    "name": "Saudi Arabia",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "SEN",
+    "name": "Senegal",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "SGP",
+    "name": "Singapore",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "SVK",
+    "name": "Slovak Republic",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "SVN",
+    "name": "Slovenia",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "ZAF",
+    "name": "South Africa",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "ESP",
+    "name": "Spain",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "SWE",
+    "name": "Sweden",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "CHE",
+    "name": "Switzerland",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "THA",
+    "name": "Thailand",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "TUN",
+    "name": "Tunisia",
+    "is_country": 1,
+    "continent": "Africa"
+  },
+  {
+    "code": "TUR",
+    "name": "Türkiye",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "UKR",
+    "name": "Ukraine",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "ARE",
+    "name": "United Arab Emirates",
+    "is_country": 1,
+    "continent": "Asia"
+  },
+  {
+    "code": "GBR",
+    "name": "United Kingdom",
+    "is_country": 1,
+    "continent": "Europe"
+  },
+  {
+    "code": "USA",
+    "name": "United States",
+    "is_country": 1,
+    "continent": "North America"
+  },
+  {
+    "code": "VNM",
+    "name": "Viet Nam",
+    "is_country": 1,
+    "continent": "Asia"
+  }
+]

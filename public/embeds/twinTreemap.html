@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <base href="../" />
+    <title>FDVA Twin Treemap Embed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --panel-bg: #ffffff;
+        --panel-border: #e5e7eb;
+        --text: #111827;
+        --muted: #6b7280;
+        --accent: #be185d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-weight: 400;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .error {
+        margin: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(190, 24, 93, 0.25);
+        background: rgba(190, 24, 93, 0.06);
+        color: #7a143d;
+        font-size: 12px;
+        line-height: 1.35;
+        white-space: pre-wrap;
+      }
+
+      .wrap {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        padding: 12px;
+        max-width: 1500px;
+        margin: 0 auto;
+      }
+
+      .panel {
+        flex: 1 1 0;
+        min-width: 0;
+        background: var(--panel-bg);
+        border: 1px solid var(--panel-border);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .panel-head {
+        padding: 12px 14px 10px 14px;
+        border-bottom: 1px solid var(--panel-border);
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .title {
+        margin-top: 4px;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+
+      .head {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .head-row {
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .year-inline {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--muted);
+        white-space: nowrap;
+        cursor: pointer;
+        user-select: none;
+        margin-left: auto;
+        padding: 2px 6px;
+        border-radius: 8px;
+        text-decoration: none;
+        position: relative;
+      }
+
+      .year-inline:hover {
+        color: #4b5563;
+        background: rgba(17, 24, 39, 0.04);
+      }
+
+      .year-inline:focus-within {
+        color: #374151;
+        background: rgba(17, 24, 39, 0.05);
+      }
+
+      .year-inline .year-value {
+        color: #374151;
+        font-weight: 500;
+      }
+
+      .year-inline .chev {
+        margin-left: 2px;
+        color: currentColor;
+        opacity: 0.9;
+        pointer-events: none;
+      }
+
+      .year-inline select.select {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .year-inline .year-display {
+        pointer-events: none;
+      }
+
+      .meta {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .meta .value {
+        font-weight: 650;
+      }
+
+      .hint {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--muted);
+        font-style: italic;
+        line-height: 1.35;
+        max-width: 68ch;
+      }
+
+      .hint .accent {
+        color: var(--accent);
+        font-weight: 650;
+      }
+
+      .panel-body {
+        padding: 8px;
+      }
+
+      .total-line {
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 650;
+        margin: 2px 0 10px 0;
+      }
+
+      .chart {
+        width: 100%;
+        height: clamp(340px, 48vw, 760px);
+      }
+
+      .btn {
+        font-family: inherit;
+        border: 1px solid #e6e6ef;
+        background: linear-gradient(#ffffff, #fafafa);
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-weight: 500;
+        font-size: 12px;
+        cursor: pointer;
+        color: var(--text);
+        box-shadow: 0 1px 0 rgba(17, 24, 39, 0.04);
+      }
+
+      .btn-secondary {
+        background: #fff;
+        box-shadow: none;
+        border-color: #ececf3;
+        color: #374151;
+      }
+
+      .ctl {
+        box-sizing: border-box;
+        height: 26px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--muted);
+        border: 1px solid rgba(17, 24, 39, 0.1);
+        background: rgba(17, 24, 39, 0.02);
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .btn-ctl {
+        padding: 0 10px;
+        line-height: 1;
+      }
+
+      .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 10px;
+        user-select: none;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .toggle input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .switch {
+        position: relative;
+        width: 30px;
+        height: 16px;
+        border-radius: 999px;
+        background: rgba(17, 24, 39, 0.12);
+        box-shadow: inset 0 0 0 1px rgba(17, 24, 39, 0.1);
+        flex: 0 0 auto;
+      }
+
+      .switch::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(17, 24, 39, 0.18);
+        transition: transform 140ms ease;
+      }
+
+      .toggle input:checked + .switch {
+        background: rgba(190, 24, 93, 0.35);
+      }
+
+      .toggle input:checked + .switch::after {
+        transform: translateX(14px);
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: nowrap;
+        margin-left: auto;
+      }
+
+      .panel-head.has-controls {
+        position: relative;
+      }
+
+      .panel-head.has-controls .controls {
+        position: absolute;
+        top: 12px;
+        right: 14px;
+        margin-left: 0;
+      }
+
+      #tooltip {
+        position: fixed;
+        z-index: 10;
+        pointer-events: none;
+        background: rgba(17, 24, 39, 0.92);
+        color: #fff;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 1.35;
+        max-width: 42ch;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 120ms ease, transform 120ms ease;
+      }
+
+      #tooltip.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 820px) {
+        .wrap {
+          grid-template-columns: 1fr;
+          padding: 10px;
+        }
+        .panel-head {
+          flex-wrap: wrap;
+        }
+        .panel-head .head {
+          flex-basis: 100%;
+        }
+        .controls {
+          width: 100%;
+          margin-left: 0;
+          justify-content: flex-end;
+        }
+        .panel-head.has-controls .controls {
+          position: static;
+          top: auto;
+          right: auto;
+        }
+      }
+
+      @media (min-width: 1400px) {
+        .chart {
+          height: clamp(340px, 40vw, 640px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="errorMsg" class="error" hidden></div>
+
+    <div class="wrap">
+      <section class="panel">
+        <div class="panel-head">
+          <div class="head">
+            <div class="head-row">
+              <div class="title">Value added by sector</div>
+              <label class="year-inline" for="yearSelect" title="Year">
+                <span class="year-display">
+                  <span>Year:</span>
+                  <span class="year-value" id="yearInlineValue">2022</span>
+                  <span class="chev">▾</span>
+                </span>
+                <select id="yearSelect" class="select" aria-label="Select year"></select>
+              </label>
+            </div>
+            <div class="meta">
+              Filtered by:
+              <span class="value" id="selectionCountryLabel">No country filter</span>
+            </div>
+            <div class="hint">
+              <span class="accent" style="font-style: normal">Click a sector</span>
+              to highlight where its value added is embodied in final demand across
+              countries.
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="sectorTotal" class="total-line"></div>
+          <div id="sectorTreemap" class="chart"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head has-controls">
+          <div class="head">
+            <div class="title">Final demand by country</div>
+            <div class="meta">
+              Filtered by:
+              <span class="value" id="selectionSectorLabel">No sector filter</span>
+            </div>
+            <div class="hint">
+              <span class="accent" style="font-style: normal">Click a country</span>
+              to see which origin-country sectors contribute most to that country’s
+              final demand.
+            </div>
+          </div>
+          <div class="controls">
+            <label class="toggle ctl" title="Exclude domestic (origin) final demand">
+              <input id="toggleDomesticToggle" type="checkbox" />
+              <span class="switch" aria-hidden="true"></span>
+              <span>Exclude domestic</span>
+            </label>
+            <button
+              id="resetBtn"
+              class="btn ctl btn-ctl btn-secondary"
+              type="button"
+              title="Clear selection"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="countryTotal" class="total-line"></div>
+          <div id="countryTreemap" class="chart"></div>
+        </div>
+      </section>
+    </div>
+
+    <div id="tooltip" role="tooltip"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="js/twinTreemap.js?v=20260120-14"></script>
+    <script>
+      (function () {
+        const YEAR_MIN = 1995;
+        const YEAR_MAX = 2022;
+        const DEFAULT_COUNTRY = "SVK";
+        const DEFAULT_YEAR = 2022;
+
+        function clampYear(y) {
+          const n = Number(y);
+          if (!Number.isFinite(n)) return DEFAULT_YEAR;
+          return Math.min(YEAR_MAX, Math.max(YEAR_MIN, n));
+        }
+
+        function normCountry(c) {
+          return String(c || DEFAULT_COUNTRY).toUpperCase();
+        }
+
+        function showError(msg) {
+          const el = document.getElementById("errorMsg");
+          if (!el) return;
+          const text = String(msg || "").trim();
+          el.textContent = text;
+          el.hidden = !text;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const dataOverride = params.get("data");
+
+        let country = normCountry(params.get("country") || DEFAULT_COUNTRY);
+        let year = clampYear(params.get("year") || DEFAULT_YEAR);
+
+        if (dataOverride) {
+          const m = String(dataOverride).match(/year=(\d{4})\/([A-Za-z]{3})\.json$/);
+          if (m) {
+            year = clampYear(m[1]);
+            country = normCountry(m[2]);
+          }
+        }
+
+        params.set("country", country);
+        params.set("year", String(year));
+        params.delete("data");
+        window.history.replaceState(
+          null,
+          "",
+          `${window.location.pathname}?${params.toString()}`
+        );
+
+        const yearSelect = document.getElementById("yearSelect");
+        const yearInlineValue = document.getElementById("yearInlineValue");
+        if (yearSelect && yearSelect.options.length === 0) {
+          for (let y = YEAR_MAX; y >= YEAR_MIN; y--) {
+            const opt = document.createElement("option");
+            opt.value = String(y);
+            opt.textContent = String(y);
+            yearSelect.appendChild(opt);
+          }
+        }
+        if (yearSelect) yearSelect.value = String(year);
+        if (yearInlineValue) yearInlineValue.textContent = String(year);
+
+        async function renderNow() {
+          if (typeof window.renderTwinTreemap !== "function") {
+            showError("renderTwinTreemap() is not available (JS failed to load).");
+            return;
+          }
+          await window.renderTwinTreemap({
+            country,
+            year,
+            dataUrl: dataOverride || null,
+            onError: showError,
+          });
+        }
+
+        renderNow().catch((err) => {
+          showError(err && err.message ? err.message : String(err));
+          console.error(err);
+        });
+
+        if (yearSelect) {
+          yearSelect.addEventListener("change", () => {
+            year = clampYear(yearSelect.value);
+            if (yearInlineValue) yearInlineValue.textContent = String(year);
+            const p = new URLSearchParams(window.location.search);
+            p.set("country", country);
+            p.set("year", String(year));
+            p.delete("data");
+            window.history.replaceState(
+              null,
+              "",
+              `${window.location.pathname}?${p.toString()}`
+            );
+            showError("");
+            renderNow().catch((err) => {
+              showError(err && err.message ? err.message : String(err));
+              console.error(err);
+            });
+          });
+        }
+
+        function measureContentHeight() {
+          const wrap = document.querySelector(".wrap");
+          const error = document.getElementById("errorMsg");
+          let total = 0;
+          if (error && !error.hidden) {
+            const r = error.getBoundingClientRect();
+            total = Math.max(total, r.bottom);
+          }
+          if (wrap) {
+            const r = wrap.getBoundingClientRect();
+            total = Math.max(total, r.bottom);
+          }
+          const docTop = document.documentElement.getBoundingClientRect().top || 0;
+          return Math.ceil(total - docTop + 2);
+        }
+
+        function postHeight() {
+          const height = measureContentHeight();
+          if (height > 0 && window.parent && window.parent !== window) {
+            window.parent.postMessage(
+              { type: "twinTreemap:height", height },
+              "*"
+            );
+          }
+        }
+
+        if (typeof ResizeObserver !== "undefined") {
+          const ro = new ResizeObserver(() => postHeight());
+          ro.observe(document.documentElement);
+        } else {
+          window.addEventListener("resize", postHeight);
+        }
+
+        window.addEventListener("load", postHeight);
+        setTimeout(postHeight, 0);
+        setTimeout(postHeight, 300);
+        setTimeout(postHeight, 900);
+      })();
+    </script>
+  </body>
+</html>

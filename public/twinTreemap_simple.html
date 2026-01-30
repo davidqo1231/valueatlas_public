@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Twin Treemap (FDVA)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fafafa;
+        --panel-bg: #ffffff;
+        --panel-border: #e5e7eb;
+        --text: #111827;
+        --muted: #6b7280;
+        --accent: #be185d;
+      }
+
+      body {
+        margin: 0;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-weight: 400;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .wrap {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        padding: 16px;
+        max-width: 1500px;
+        margin: 0 auto;
+      }
+
+      .panel {
+        flex: 1 1 0;
+        min-width: 0;
+        background: var(--panel-bg);
+        border: 1px solid var(--panel-border);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .panel-head {
+        padding: 14px 16px 10px 16px;
+        border-bottom: 1px solid var(--panel-border);
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .kicker {
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .title {
+        margin-top: 4px;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+
+      .head {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .head-row {
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .desc {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.35;
+        max-width: 55ch;
+      }
+
+      .desc .accent {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .meta {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .hint {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--muted);
+        font-style: italic;
+        line-height: 1.35;
+        max-width: 68ch;
+      }
+
+      .hint .accent {
+        color: var(--accent);
+        font-weight: 650;
+      }
+
+      .meta .value {
+        font-weight: 650;
+        transition: color 120ms ease;
+      }
+
+      .panel-body {
+        padding: 10px;
+      }
+
+      .total-line {
+        text-align: center;
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 650;
+        margin: 2px 0 10px 0;
+      }
+
+      .chart {
+        width: 100%;
+        height: clamp(380px, 62vh, 680px);
+      }
+
+      .btn {
+        font-family: inherit;
+        border: 1px solid #e6e6ef;
+        background: linear-gradient(#ffffff, #fafafa);
+        border-radius: 10px;
+        padding: 9px 12px;
+        font-weight: 500;
+        font-size: 12px;
+        cursor: pointer;
+        color: var(--text);
+        box-shadow: 0 1px 0 rgba(17, 24, 39, 0.04);
+      }
+
+      .btn:hover {
+        border-color: #d9d9e6;
+        box-shadow: 0 2px 10px rgba(17, 24, 39, 0.06);
+      }
+
+      .btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(190, 24, 93, 0.15);
+        border-color: rgba(190, 24, 93, 0.35);
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .btn-secondary {
+        background: #fff;
+        box-shadow: none;
+        border-color: #ececf3;
+        color: #374151;
+      }
+
+      .btn-secondary:hover {
+        border-color: #d9d9e6;
+        box-shadow: 0 2px 10px rgba(17, 24, 39, 0.05);
+      }
+
+      /* Lightweight analytic controls (right panel) */
+      .ctl {
+        box-sizing: border-box;
+        height: 28px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--muted);
+        border: 1px solid rgba(17, 24, 39, 0.10);
+        background: rgba(17, 24, 39, 0.02);
+        box-shadow: none;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .ctl:hover {
+        border-color: rgba(17, 24, 39, 0.16);
+        background: rgba(17, 24, 39, 0.03);
+        box-shadow: none;
+      }
+
+      .ctl:focus-within,
+      .ctl:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(190, 24, 93, 0.12);
+        border-color: rgba(190, 24, 93, 0.25);
+      }
+
+      .btn-ctl {
+        padding: 0 10px;
+        line-height: 1;
+      }
+
+      .btn-ctl.secondary {
+        border-color: rgba(17, 24, 39, 0.08);
+        background: transparent;
+      }
+
+      .btn-ctl:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 10px;
+        user-select: none;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .toggle input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .switch {
+        position: relative;
+        width: 30px;
+        height: 16px;
+        border-radius: 999px;
+        background: rgba(17, 24, 39, 0.12);
+        box-shadow: inset 0 0 0 1px rgba(17, 24, 39, 0.10);
+        flex: 0 0 auto;
+      }
+
+      .switch::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(17, 24, 39, 0.18);
+        transition: transform 140ms ease;
+      }
+
+      .toggle input:checked + .switch {
+        background: rgba(190, 24, 93, 0.35);
+      }
+
+      .toggle input:checked + .switch::after {
+        transform: translateX(14px);
+      }
+
+      .select {
+        font-family: inherit;
+        border: 1px solid #e6e6ef;
+        background: linear-gradient(#ffffff, #fafafa);
+        border-radius: 10px;
+        padding: 7px 10px;
+        min-width: 96px;
+        font-weight: 500;
+        font-size: 12px;
+        color: var(--text);
+        box-shadow: 0 1px 0 rgba(17, 24, 39, 0.04);
+      }
+
+      .select:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(190, 24, 93, 0.15);
+        border-color: rgba(190, 24, 93, 0.35);
+      }
+
+      .selection {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .selection .value {
+        color: var(--accent);
+        font-weight: 650;
+      }
+
+      #tooltip {
+        position: fixed;
+        z-index: 10;
+        pointer-events: none;
+        background: rgba(17, 24, 39, 0.92);
+        color: #fff;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 1.35;
+        max-width: 42ch;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 120ms ease, transform 120ms ease;
+      }
+
+      #tooltip.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: nowrap;
+        margin-left: auto;
+      }
+
+      .panel-head.has-controls {
+        position: relative;
+      }
+
+      .panel-head.has-controls .controls {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        margin-left: 0;
+      }
+
+      @media (max-width: 1100px) {
+        .wrap {
+          grid-template-columns: 1fr;
+          padding: 12px;
+        }
+        .panel-head {
+          flex-wrap: wrap;
+        }
+        .panel-head .head {
+          flex-basis: 100%;
+        }
+        .controls {
+          width: 100%;
+          margin-left: 0;
+          justify-content: flex-end;
+        }
+        .panel-head.has-controls .controls {
+          position: static;
+          top: auto;
+          right: auto;
+        }
+        .chart {
+          height: clamp(340px, 56vh, 560px);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .panel-head {
+          padding: 12px 12px 10px 12px;
+        }
+        .panel-body {
+          padding: 8px;
+        }
+        .title {
+          font-size: 18px;
+        }
+        .meta,
+        .hint {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="panel">
+        <div class="panel-head">
+          <div class="head">
+            <div class="head-row">
+              <div class="title">Value added by sector</div>
+            </div>
+            <div class="meta">
+              Selection:
+              <span class="value" id="selectionCountryLabel">All countries</span>
+            </div>
+            <div class="hint">
+              <span class="accent" style="font-style: normal">Click a sector</span>
+              to see which countries’ final demand generates its value added.
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="sectorTotal" class="total-line"></div>
+          <div id="sectorTreemap" class="chart"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head has-controls">
+          <div class="head">
+            <div class="title">Final demand by country</div>
+            <div class="meta">
+              Selection: <span class="value" id="selectionSectorLabel">All sectors</span>
+            </div>
+            <div class="hint">
+              <span class="accent" style="font-style: normal">Click a country</span>
+              to see the sectoral composition of value added generated by its final
+              demand.
+            </div>
+          </div>
+          <div class="controls">
+            <label class="toggle ctl" title="Exclude domestic final demand">
+              <input id="toggleDomesticToggle" type="checkbox" />
+              <span class="switch" aria-hidden="true"></span>
+              <span>Exclude domestic</span>
+            </label>
+            <button id="resetBtn" class="btn ctl btn-ctl secondary" type="button">
+              Reset
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="countryTotal" class="total-line"></div>
+          <div id="countryTreemap" class="chart"></div>
+        </div>
+      </section>
+    </div>
+
+    <div id="tooltip" role="tooltip"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+      (function () {
+        const DEFAULT_COUNTRY = "SVK";
+        const DEFAULT_YEAR = 2022;
+        const YEAR_MIN = 1995;
+        const YEAR_MAX = 2022;
+
+        function clampYear(y) {
+          const n = Number(y);
+          if (!Number.isFinite(n)) return DEFAULT_YEAR;
+          return Math.min(YEAR_MAX, Math.max(YEAR_MIN, n));
+        }
+
+        function normCountry(c) {
+          return String(c || DEFAULT_COUNTRY).toUpperCase();
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const country = normCountry(params.get("country") || DEFAULT_COUNTRY);
+        const year = clampYear(params.get("year") || DEFAULT_YEAR);
+        params.set("country", country);
+        params.set("year", String(year));
+        params.delete("data");
+        window.history.replaceState(
+          null,
+          "",
+          `${window.location.pathname}?${params.toString()}`
+        );
+      })();
+    </script>
+    <!-- Cache-bust so the browser doesn't keep running the old auto-start script -->
+    <script src="js/twinTreemap.js?v=20260120-14"></script>
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const country = String(params.get("country") || "SVK").toUpperCase();
+        const year = Number(params.get("year")) || 2022;
+        const dataOverride = params.get("data");
+
+        function showError(msg) {
+          if (!msg) return;
+          const pre = document.createElement("pre");
+          pre.style.whiteSpace = "pre-wrap";
+          pre.style.padding = "16px";
+          pre.textContent = String(msg);
+          document.body.appendChild(pre);
+        }
+
+        if (typeof window.renderTwinTreemap !== "function") {
+          showError("renderTwinTreemap() is not available (JS failed to load).");
+          return;
+        }
+
+        window
+          .renderTwinTreemap({ country, year, dataUrl: dataOverride || null })
+          .catch((err) => showError(err && err.message ? err.message : String(err)));
+      })();
+    </script>
+  </body>
+</html>

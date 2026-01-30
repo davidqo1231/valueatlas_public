@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Country profile — ValueAtlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/site.css" />
+    <style>
+      .profile-top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+
+      .back {
+        color: var(--link);
+      }
+
+      .back:hover {
+        color: var(--link-hover);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .placeholder {
+        min-height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body data-page="country-profile">
+    <div class="container">
+      <div class="profile-top">
+        <div>
+          <div class="kicker mono">Country profile</div>
+          <h1 class="h1 mono" style="margin-top: 6px">
+            <span id="countryName">Slovak Republic</span>
+          </h1>
+          <div class="meta-line" style="margin-top: 8px">
+            Code: <span class="mono" id="countryCode">SVK</span> · Continent:
+            <span id="countryContinent">Europe</span>
+          </div>
+        </div>
+        <div class="mono">
+          <a class="back" href="index.html">← Home</a>
+        </div>
+      </div>
+
+      <div class="layout">
+        <section class="viz-shell" aria-label="FDVA twin treemap">
+          <iframe
+            id="twinTreemapEmbed"
+            class="viz-frame"
+            title="FDVA twin treemap"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          ></iframe>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <div class="h2 mono">Coming soon</div>
+            <div class="meta-line">Placeholder card</div>
+          </div>
+          <div class="card-body placeholder mono">Indicators</div>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="js/site.js"></script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ValueAtlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/site.css" />
+  </head>
+  <body data-page="home">
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">
+          <div>
+            <div class="kicker mono">ValueAtlas</div>
+            <h1 class="h1 mono">Country profiles</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <div class="card-head">
+            <div class="h2 mono">Find a country</div>
+          </div>
+          <div class="card-body">
+            <input
+              id="countrySearch"
+              class="input mono"
+              type="search"
+              placeholder="Type to filter… (e.g. DEU, Germany)"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <div class="meta-line" style="margin-top: 10px">
+              Click a card to open <span class="mono">country-profile.html?country=DEU</span>.
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top: 14px">
+        <div class="card-head">
+          <div class="h2 mono">Countries</div>
+        </div>
+        <div class="card-body">
+          <div id="countryGrid" class="country-grid"></div>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 14px">
+        <div class="card-head">
+          <div class="h2 mono">Data source</div>
+        </div>
+        <div class="card-body">
+          <div class="meta-line">
+            Placeholder: describe dataset(s), update cadence, and provenance here.
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="js/site.js"></script>
+  </body>
+</html>
